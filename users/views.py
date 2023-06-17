@@ -33,3 +33,21 @@ def user_registration(request):
 
     except Exception as e:
         return HttpResponse("Data is invalid", e)
+
+
+@csrf_exempt
+def login(request):
+    """
+    Description: Creating API to Login User
+    :param request:
+    :return:
+    """
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user_name = data.get("user_name")
+        password = data.get("password")
+
+        if User.objects.filter(user_name=user_name, password=password):
+            return HttpResponse("User is valid")
+        else:
+            return HttpResponse("User is invalid")
